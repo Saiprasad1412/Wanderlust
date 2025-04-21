@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const initData = require("./data");
 const Listing = require("../models/listing.js");
 
-const MongoUrl = "mongodb://localhost:27017/Airbnb";
+const dbUrl = process.env.ATLAS_URL;
 main().then(()=>{
     console.log("conected to database");
 }).catch((err)=>{
@@ -10,7 +10,7 @@ main().then(()=>{
 });
 
 async function main() {
-    await mongoose.connect(MongoUrl);
+    await mongoose.connect(dbUrl);
 }
 
 const initDB = async () =>{

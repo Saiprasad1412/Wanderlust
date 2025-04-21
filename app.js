@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
-const dbUrl =  process.env.ATLAS_URL;
+const dbUrl = process.env.ATLAS_URL;
 main().then(() => {
     console.log("Connected to database");
 }).catch((err) => {
@@ -42,7 +42,7 @@ async function main() {
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret:process.env.SECRET,
+        secret: process.env.SECRET,
     },
     touchAfter: 24 * 3600,
 });
@@ -52,7 +52,7 @@ store.on("error",()=>{
 
 const sessionOptions = {
     store,
-    secret:"process.env.SECRET",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
