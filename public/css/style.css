@@ -318,17 +318,6 @@ img:hover {
     scroll-snap-align: start;
   }
 
-/* .hero-section {
-    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
-    padding: 14rem 2rem 18rem;
-    color: white;
-    position: relative;
-    overflow: visible; 
-    text-align: center;
-    z-index: 1;
-    isolation: isolate;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-} */
 .hero-section {
     background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     padding: 10rem 2rem 6rem;
@@ -344,11 +333,6 @@ img:hover {
 .hero-section::before,
 .hero-section::after {
     pointer-events: none;
-}
-
-.listing-section {
-    position: relative;
-    z-index: 2;
 }
 
 .hero-section::before {
