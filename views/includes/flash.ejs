@@ -1,13 +1,23 @@
-<% if(success && success.length){ %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<% if (success && success.length) { %>
+  <div class="alert flash-alert mx-auto my-4 px-4 py-3 d-flex align-items-start gap-3 border-start border-4 border-success rounded-4 shadow-lg animate-slide-in alert-dismissible fade show"
+       style="max-width: 600px; backdrop-filter: blur(10px); background: rgba(223, 250, 223, 0.85);" role="alert">
+    <i class="bi bi-check-circle-fill fs-4 text-success mt-1"></i>
+    <div class="flex-grow-1">
+      <h6 class="mb-1 fw-semibold text-success-emphasis">Success</h6>
+      <p class="mb-0 small text-dark"><%= success %></p>
     </div>
+    <button type="button" class="btn-close mt-1" data-bs-dismiss="alert" aria-label="Close" style="opacity: 0.7;"></button>
+  </div>
 <% } %>
 
-<% if(error && error.length){ %>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<% if (error && error.length) { %>
+  <div class="alert flash-alert mx-auto my-4 px-4 py-3 d-flex align-items-start gap-3 border-start border-4 border-danger rounded-4 shadow-lg animate-slide-in alert-dismissible fade show"
+       style="max-width: 600px; backdrop-filter: blur(10px); background: rgba(255, 225, 225, 0.9);" role="alert">
+    <i class="bi bi-exclamation-triangle-fill fs-4 text-danger mt-1"></i>
+    <div class="flex-grow-1">
+      <h6 class="mb-1 fw-semibold text-danger-emphasis">Error</h6>
+      <p class="mb-0 small text-dark"><%= error %></p>
     </div>
+    <button type="button" class="btn-close mt-1" data-bs-dismiss="alert" aria-label="Close" style="opacity: 0.7;"></button>
+  </div>
 <% } %>

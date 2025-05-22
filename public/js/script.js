@@ -17,3 +17,26 @@
         }, false)
     })
 })();
+
+  document.querySelectorAll('.btn-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.alert').remove();
+    });
+  });
+
+function scrollContainer(id, direction) {
+  const container = document.getElementById(id);
+  const scrollAmount = 500;
+  container.scrollBy({
+    left: direction * scrollAmount,
+    behavior: "smooth"
+  });
+}
+function shuffleArray(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+const shuffledListings = shuffleArray(allListings); // Replace allListings with your DB query
+
+res.render("listings/listing", { allListings: shuffledListings });
+

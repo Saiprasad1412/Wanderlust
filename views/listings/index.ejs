@@ -1,26 +1,208 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
     <body>
-        <div class="row row-col-lg-4 row-col-md-2 row-col-sm-1 justify-content-around flex-wrap">
-            <% for (let listing of allListings) { %>
-                <div class="card mb-4" style="width: 20rem; height: 25rem;">
-                    <a href="/listing/<%= listing._id %>" class="text-decoration-none text-black" >
-                        <img src="<%= listing.image.url %>" class="card-img-top" style="width: 100%; height: 12rem;"
-                            alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <%= listing.title %>
-                            </h5>
-                            <p class="card-text">
-                                &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/night
-                            </p>                            
-                            <p class="card-text">
-                                <%= listing.location %>
-                            </p>
-                            <a href="/listing/<%= listing._id %>" class="btn btn-primary">View</a>
-                        </div>
-                    </a>
+        <main>
+
+            <!-- Full-height Carousel for WanderLust -->
+            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" style="height: 70vh;">
+                <!-- Indicators -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
                 </div>
-                <% } %>
-        </div>
+
+                <!-- Slides -->
+                <div class="carousel-item h-100">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80"
+                        class="d-block w-100 h-100" alt="Adventure image" style="object-fit: cover;">
+                    <div class="container h-100 d-flex flex-column justify-content-center">
+                        <div class="carousel-caption text-start">
+                            <h1>Find Your Next Adventure</h1>
+                            <p class="opacity-75">Discover unique stays and experiences across the globe with
+                                WanderLust.</p>
+                            <p><a class="btn btn-lg btn-primary" href="/listing">Explore Now</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item active h-100">
+                    <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1470&q=80"
+                        class="d-block w-100 h-100" alt="Stay anywhere image" style="object-fit: cover;">
+                    <div class="container h-100 d-flex flex-column justify-content-center">
+                        <div class="carousel-caption">
+                            <h1>Stay Anywhere, Anytime</h1>
+                            <p>WanderLust connects you with hosts in every corner of the world.</p>
+                            <p><a class="btn btn-lg btn-primary" href="/listing">Book a Stay</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item  h-100">
+                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1470&q=80"
+                        class="d-block w-100 h-100" alt="Host with us image" style="object-fit: cover;">
+                    <div class="container h-100 d-flex flex-column justify-content-center">
+                        <div class="carousel-caption text-end">
+                            <h1>Host With Us</h1>
+                            <p>Share your space and earn with WanderLust. Become a host today.</p>
+                            <p><a class="btn btn-lg btn-primary" href="/listing/create">Start Hosting</a></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+
+            <!-- MARKETING SECTION -->
+            <div class="container marketing mt-4">
+                <div class="row">
+                    <!-- Unique Stays: cozy cabins, beachside villas -->
+                    <div class="col-lg-4 text-center">
+                        <img src="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
+                            class="rounded-circle" width="140" height="140" alt="Unique Stays">
+                        <h2 class="fw-normal mt-3">Unique Stays</h2>
+                        <p>From cozy cabins to beachside villas — explore places that feel like home.</p>
+                        <p><a class="btn btn-secondary" href="/listing">View Listings »</a></p>
+                    </div>
+
+                    <!-- Trusted Hosts: friendly, verified hosts -->
+                    <div class="col-lg-4 text-center">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=140&q=80"
+                            class="rounded-circle" width="140" height="140" alt="Trusted Hosts">
+                        <h2 class="fw-normal mt-3">Trusted Hosts</h2>
+                        <p>All hosts on WanderLust are verified and reviewed for your peace of mind.</p>
+                        <p><a class="btn btn-secondary" href="#">Meet Hosts »</a></p>
+                    </div>
+
+                    <!-- Flexible Booking: travel planning, flexible dates -->
+                    <div class="col-lg-4 text-center">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" class="rounded-circle"
+                            width="140" height="140" alt="Flexible Booking">
+                        <h2 class="fw-normal mt-3">Flexible Booking</h2>
+                        <p>Choose from a range of stays and cancel anytime with our flexible policies.</p>
+                        <a class="btn btn-secondary" href="/listing">Book Today »</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+            <div class="container my-5">
+                <div class="container my-5 position-relative">
+                    <h2 class="fw-bold mb-4">Handpicked Collections for You</h2>
+
+                    <!-- Left arrow -->
+                    <button class="arrow left" onclick="scrollContainer('collections2', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <div id="collections2" class="scroll-container d-flex gap-4 pb-3 overflow-auto">
+                        <% handpickedListings.forEach(listing=> { %>
+                            <div class="card collection-card text-white">
+                                <img src="<%= listing.image.url %>" class="card-img" alt="<%= listing.title %>">
+                                <div class="card-overlay d-flex flex-column justify-content-end p-3">
+                                    <small class="badge bg-dark mb-1">HANDPICKED</small>
+                                    <h6 class="fw-semibold m-0">
+                                        <%= listing.title %>
+                                    </h6>
+                                    <small>
+                                        <%= listing.location %>
+                                    </small>
+                                    <a href="/listing/<%= listing._id %>" class="btn btn-sm btn-light mt-2">View</a>
+                                </div>
+                            </div>
+                            <% }); %>
+
+                    </div>
+
+                    <!-- Right arrow -->
+                    <button class="arrow right" onclick="scrollContainer('collections2', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+
+
+
+                <!-- === HIDDEN GEMS SECTION === -->
+                <div class="container my-5 position-relative">
+                    <h2 class="fw-bold mb-4">Unlock Lesser-Known Wonders of India</h2>
+
+                    <!-- Left arrow -->
+                    <button class="arrow left" onclick="scrollContainer('collections', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <!-- Scrollable container -->
+                    <div id="collections" class="scroll-container d-flex gap-4 pb-3 overflow-auto">
+                        <% hiddenGemListings.forEach(listing=> { %>
+                            <div class="card collection-card text-white">
+                                <img src="<%= listing.image.url %>" class="card-img" alt="<%= listing.title %>">
+                                <div class="card-overlay d-flex flex-column justify-content-end p-3">
+                                    <h6 class="fw-semibold m-0">
+                                        <%= listing.title %>
+                                    </h6>
+                                    <small>
+                                        <%= listing.location %>
+                                    </small>
+                                    <a href="/listing/<%= listing._id %>" class="btn btn-sm btn-light mt-2">Explore</a>
+                                </div>
+                            </div>
+                            <% }); %>
+
+                    </div>
+
+                    <!-- Right arrow -->
+                    <button class="arrow right" onclick="scrollContainer('collections', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <!-- === TOP TRENDING SPOTS SECTION === -->
+                <div class="container my-5 position-relative">
+                    <h2 class="fw-bold mb-4">Top Trending Spots in India</h2>
+
+                    <!-- Left arrow -->
+                    <button class="arrow left" onclick="scrollContainer('trendingSpots', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <!-- Scrollable container -->
+                    <div id="trendingSpots" class="scroll-container d-flex gap-4 pb-3 overflow-auto">
+                        <% trendingListings.forEach(listing=> { %>
+                            <div class="card collection-card text-white">
+                                <img src="<%= listing.image.url %>" class="card-img" alt="<%= listing.title %>">
+                                <div class="card-overlay d-flex flex-column justify-content-end p-3">
+                                    <small class="badge bg-danger mb-1">TRENDING</small>
+                                    <h6 class="fw-semibold m-0">
+                                        <%= listing.title %>
+                                    </h6>
+                                    <small>
+                                        <%= listing.location %>
+                                    </small>
+                                    <a href="/listing/<%= listing._id %>" class="btn btn-sm btn-light mt-2">Explore</a>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+
+                    <!-- Right arrow -->
+                    <button class="arrow right" onclick="scrollContainer('trendingSpots', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+
+        </main>
     </body>

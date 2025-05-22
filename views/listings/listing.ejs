@@ -1,0 +1,149 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+  <body>
+    <section class="hero-section py-5 bg-light">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h1 class="display-4 fw-bold mb-3 text-white">Find Your Perfect Getaway</h1>
+          <p class="lead text-white-70">Discover amazing places to stay, from serene beaches to vibrant cities.</p>
+        </div>
+
+        <div class="search-container mx-auto p-4 rounded-4 shadow bg-white dark-bg"
+          style="max-width: 960px; position: relative;">
+          <div class="row g-4 justify-content-center align-items-center mb-3">
+            <!-- Search Bar -->
+            <div class="col-lg-8 col-md-7 col-sm-12 ">
+              <form action="/listing" method="GET">
+                <div class="input-group input-group-lg shadow-sm rounded-pill position-relative">
+                  <span class="input-group-text bg-white border-end-0 rounded-start-pill ps-4">
+                    <i class="bi bi-search text-info fs-4"></i>
+                  </span>
+                  <input type="text" name="search" id="searchInput"
+                    class="form-control border-start-0 border-end-0 py-3 text-center"
+                    placeholder="Search by city, tags, or property..." autocomplete="off" />
+                  <button type="submit" class="btn btn-primary rounded-end-pill px-4">
+                    <i class="bi bi-arrow-right-circle-fill fs-4"></i>
+                  </button>
+
+                  <!-- Suggestions Box -->
+                  <ul id="suggestionsBox"
+                    class="list-group position-absolute dark-mode top-100 start-0 w-100 mt-2 z-3 shadow-lg rounded-4 bg-white border border-light"
+                    style="display: none;">
+                    <!-- JS will populate suggestions here -->
+                  </ul>
+                </div>
+              </form>
+            </div>
+
+
+            <!-- Filters Toggle -->
+            <div class="col-lg-4 col-md-5 col-sm-12 text-md-start text-center">
+              <button class="btn btn-outline-primary rounded-pill w-100 fw-semibold shadow-sm" id="filtersBtn"
+                data-bs-toggle="collapse" data-bs-target="#filtersPanel" aria-expanded="false"
+                aria-controls="filtersPanel">
+                <i class="bi bi-funnel-fill me-2"></i> Show Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Panel -->
+          <div class="collapse" id="filtersPanel">
+            <hr class="my-4" />
+            <div class="filters-panel">
+              <div class="row g-4 align-items-end">
+
+                <!-- Sort -->
+                <div class="col-md-4">
+                  <label for="sortSelect" class="form-label text-secondary">Sort By</label>
+                  <select id="sortSelect" class="form-select rounded-pill shadow-sm">
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="rating">Rating</option>
+                    <option value="newest">Newest Listings</option>
+                  </select>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-4">
+                  <label for="categorySelect" class="form-label text-secondary">Category</label>
+                  <select id="categorySelect" class="form-select rounded-pill shadow-sm">
+                    <option value="">All Categories</option>
+                    <option value="beach">🏖️ Beach</option>
+                    <option value="mountain">⛰️ Mountain</option>
+                    <option value="city">🏙️ City</option>
+                    <option value="heritage">🏛️ Heritage</option>
+                    <option value="adventure">🧗 Adventure</option>
+                    <option value="forest">🌲 Forest</option>
+                  </select>
+                </div>
+
+                <!-- Price -->
+                <div class="col-md-4">
+                  <label for="priceSlider"
+                    class="form-label d-flex justify-content-between align-items-center text-secondary">
+                    <span>Max Price:</span>
+                    <span class="text-primary fw-bold" id="priceVal">₹5000</span>
+                  </label>
+                  <input type="range" class="form-range" min="500" max="10000" step="500" id="priceSlider"
+                    value="5000" />
+                </div>
+
+
+                <!-- Apply Button -->
+                <div class="col-12 text-end">
+                  <button id="applyFiltersBtn" class="btn btn-primary rounded-pill px-4 mt-2 shadow-sm" type="button">
+                    <i class="bi bi-check-circle me-2"></i>Apply Filters
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Listings -->
+    <div class="container listing-section">
+      <div class="text-center py-5">
+        <h2 class="fw-bold display-6 text-primary mb-3">
+          <i class="bi bi-stars me-2 text-warning"></i>Explore Stays You'll Love
+        </h2>
+        <p class="lead text-muted mb-4">From mountain retreats to beachside escapes, find your next perfect getaway</p>
+        <hr class="mx-auto" style="width: 80px; height: 3px; background-color: #0d6efd; border-radius: 2px;">
+      </div>
+      <div id="listingContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <% allListings.forEach((listing, index)=> { %>
+          <div class="col listing-card-wrapper <% if (index >= 30) { %>d-none<% } %>">
+            <div class="card h-100 shadow-sm border-0 rounded-4 listing-card hover-shadow transition">
+              <a href="/listing/<%= listing._id %>" class="text-decoration-none text-dark">
+                <img src="<%= listing.image.url %>" class="card-img-top rounded-top-4" alt="<%= listing.title %>"
+                  style="height: 14rem; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= listing.title %>
+                  </h5>
+                  <p class="text-muted small mb-1">
+                    <%= listing.location %>
+                  </p>
+                  <p class="fw-bold text-primary">
+                    &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/night
+                  </p>
+                  <a href="/listing/<%= listing._id %>" class="btn btn-sm btn-outline-primary mt-2">View Details</a>
+                </div>
+              </a>
+            </div>
+          </div>
+          <% }); %>
+      </div>
+
+      <% if (allListings.length> 30) { %>
+        <div class="text-center mt-4">
+          <button id="showMoreBtn" class="btn btn-outline-dark">Show More</button>
+        </div>
+        <% } %>
+    </div>
+
+
+    <script src="/js/searchbar.js" defer></script>
+  </body>

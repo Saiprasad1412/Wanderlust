@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
@@ -13,12 +14,16 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
-const localStrategy = require("passport-local");
+const localStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require("./models/user.js");
+const generateRandomUsername = require('./utils/generateUsername');
 
+const wishlistRoutes = require("./routes/wishlist");
 const userRoutes = require("./routes/user.js")
 const listingRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
+const bookingRoutes = require("./routes/booking.js");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -67,33 +72,82 @@ app.use(flash())
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()))
+passport.use(new localStrategy(
+  { usernameField: 'email' },
+  User.authenticate()
+));
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: 'http://localhost:8080/auth/google/callback'
+  },
+   async (accessToken, refreshToken, profile, done) => {
+    try {
+      const email = profile.emails?.[0]?.value;
+
+      if (!email) {
+        return done(new Error('No email found from Google account.'));
+      }
+
+      let user = await User.findOne({ email });
+
+      if (!user) {
+        user = await User.create({
+          googleId: profile.id,
+          email: email,
+          username: generateRandomUsername(profile.displayName),
+          name: profile.displayName,
+          profilePicture: profile.photos?.[0]?.value,
+        });
+      } else if (!user.googleId) {
+        user.googleId = profile.id;
+        await user.save();
+      }
+
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
-
     next();
-})
+});
 
-// Listing Routes
+// Routes
 app.use("/listing", listingRoutes);
 app.use("/listing/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
+app.use("/wishlist", wishlistRoutes);
+app.use("/bookings", bookingRoutes);
 
 app.get("/", wrapAsync(async (req, res) => {
-    res.redirect("/listing");
+  try {
+    const allListings = await Listing.find({});
+
+    const handpickedListings = allListings.slice(0, 8);  // first 8
+    const hiddenGemListings = allListings.slice(8, 16); // next 8
+    const trendingListings = allListings.slice(16, 24);
+
+    res.render("./listings/index.ejs", { handpickedListings, hiddenGemListings, trendingListings });
+  } catch (e) {
+    console.error("Error loading homepage listings", e);
+    res.status(500).send("Server Error");
+  }
 }));
 
 // Error Handlers
 app.all("*", (req, res, next) => next(new ExpressError(404, "Page not found")));
 app.use((err, req, res, next) => {
     if (res.headersSent) return next(err);
-    let { status = 500, message = "Something went wrong" } = err;
     res.render("error.ejs", { err });
 });
 

@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<body>
+  <div class="container mt-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">📝 My Reviews</h2>
+      <p class="text-muted">All the places you've shared your thoughts about</p>
+    </div>
+
+    <% if (myReviews.length === 0) { %>
+      <div class="alert alert-info text-center shadow-sm p-4 rounded">
+        <i class="bi bi-chat-left-text fs-3"></i><br>
+        You haven't written any reviews yet.
+      </div>
+    <% } else { %>
+      <div class="row g-4">
+        <% myReviews.forEach(review => { %>
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-2">
+                  <a href="/listing/<%= review.listingId._id %>" class="text-decoration-none text-primary fw-semibold">
+                    <%= review.listingId.title %>
+                  </a>
+                </h5>
+                <p class="card-text flex-grow-1"><%= review.comment %></p>
+                <div class="mt-3">
+                  <span class="badge bg-warning text-dark">Rating: <%= review.rating %> ⭐</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</body>

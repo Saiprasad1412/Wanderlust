@@ -1,0 +1,200 @@
+<% layout("/layouts/boilerplate") %>
+
+<body class="bg-body-tertiary">
+
+  <div class="container py-5">
+
+    <main class="mx-auto" style="max-width: 850px;">
+
+      <!-- Header -->
+      <h1 class="mb-4 text-center fw-bold text-success display-5">
+        <i class="bi bi-bell-fill me-2"></i>Confirm Your Stay
+      </h1>
+
+      <% if (error) { %>
+        <div class="alert alert-danger text-center rounded-pill px-4 py-2 shadow-sm"><%= error %></div>
+      <% } %>
+
+      <!-- Listing Preview -->
+      <div class="card shadow-lg rounded-4 mb-5 overflow-hidden">
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="<%= listing.image.url %>" class="img-fluid h-100 w-100 object-fit-cover" alt="Listing image" style="object-fit: cover;">
+          </div>
+          <div class="col-md-7 p-4">
+            <h4 class="fw-bold text-dark mb-2"><%= listing.title %></h4>
+            <p class="text-muted mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> <%= listing.location %></p>
+            <p class="text-secondary small mb-2"><%= listing.description.substring(0, 100) %>...</p>
+            <p class="mb-1"><span class="fw-semibold text-dark">Rating:</span> ⭐ 4.8 (120 reviews)</p>
+            <p class="mb-0"><span class="fw-semibold text-dark">Price per night:</span> ₹<%= listing.price %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <form action="/bookings/checkout" method="POST" class="card p-4 shadow-lg bg-white rounded-4" id="bookingForm">
+
+        <input type="hidden" name="listingId" value="<%= listing._id %>">
+        <input type="hidden" name="totalPrice" id="totalPriceInput">
+
+        <!-- Booking Dates -->
+        <h5 class="text-success mb-3"><i class="bi bi-calendar-check-fill me-2"></i>Booking Dates</h5>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label for="startDate" class="form-label">Start Date</label>
+            <input type="date" class="form-control shadow-sm" id="startDate" name="startDate" required>
+          </div>
+          <div class="col-md-6">
+            <label for="endDate" class="form-label">End Date</label>
+            <input type="date" class="form-control shadow-sm" id="endDate" name="endDate" required>
+          </div>
+        </div>
+
+        <!-- Guest Selection -->
+        <h5 class="text-success mb-3"><i class="bi bi-people-fill me-2"></i>Guests</h5>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Adults</label>
+            <input type="number" name="adults" min="1" value="1" class="form-control shadow-sm" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Children</label>
+            <input type="number" name="children" min="0" value="0" class="form-control shadow-sm">
+          </div>
+        </div>
+
+        <!-- Add-ons -->
+        <h5 class="text-success mb-3"><i class="bi bi-plus-circle-fill me-2"></i>Extras</h5>
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input addon" type="checkbox" name="addons" value="breakfast" id="breakfast">
+          <label class="form-check-label" for="breakfast">Add Breakfast (₹200/day)</label>
+        </div>
+        <div class="form-check form-switch mb-4">
+          <input class="form-check-input addon" type="checkbox" name="addons" value="pickup" id="pickup">
+          <label class="form-check-label" for="pickup">Airport Pickup (₹500 one-time)</label>
+        </div>
+
+        <!-- Personal Info -->
+        <h5 class="text-success mb-3"><i class="bi bi-person-lines-fill me-2"></i>Your Details</h5>
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <input type="text" name="fullName" class="form-control shadow-sm" required>
+        </div>
+
+        <!-- Payment -->
+        <h5 class="text-success mb-3"><i class="bi bi-credit-card-2-back-fill me-2"></i>Payment Method</h5>
+        <select class="form-select mb-3 shadow-sm" name="paymentMethod" id="paymentMethod" required>
+          <option value="" disabled selected>Select payment method</option>
+          <option value="credit_card">Credit Card</option>
+          <option value="debit_card">Debit Card</option>
+          <option value="upi">UPI</option>
+        </select>
+
+        <!-- Card Input -->
+        <div id="cardDetails" class="d-none mb-4">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-control mb-2 shadow-sm" placeholder="XXXX-XXXX-XXXX-XXXX">
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control shadow-sm" placeholder="MM/YY">
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control shadow-sm" placeholder="CVV">
+            </div>
+          </div>
+        </div>
+
+        <!-- UPI Payment -->
+        <div id="upiSection" class="d-none text-center mb-4">
+          <p class="mb-2">Scan the QR to Pay</p>
+          <img id="upiQR" src="" class="img-fluid rounded shadow-sm mb-3" width="180">
+          <p class="text-muted small">or pay to <strong>saiprasadb1214@oksbi</strong></p>
+          <input type="text" name="utr" placeholder="Transaction ID" class="form-control shadow-sm mt-2" required>
+        </div>
+
+        <!-- Summary -->
+        <div class="bg-light p-4 rounded-4 shadow-sm mb-4">
+          <h6 class="fw-semibold mb-3 text-dark"><i class="bi bi-receipt-cutoff me-2"></i>Booking Summary</h6>
+          <ul class="list-unstyled mb-2 small">
+            <li><strong>Price per night:</strong> ₹<%= listing.price %></li>
+            <li><strong>Nights:</strong> <span id="nightsCount">0</span></li>
+            <li><strong>Breakfast:</strong> ₹<span id="breakfastCost">0</span></li>
+            <li><strong>Pickup:</strong> ₹<span id="pickupCost">0</span></li>
+          </ul>
+          <hr>
+          <h5 class="fw-bold text-primary">Total Price: ₹<span id="totalPriceLabel"><%= listing.price %></span></h5>
+        </div>
+
+        <!-- Terms & Submit -->
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" required id="agree">
+          <label class="form-check-label" for="agree">I agree to the <a href="#" class="text-decoration-underline">terms and conditions</a>.</label>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-success w-100 shadow-sm fw-bold">
+          <i class="bi bi-check-circle-fill me-2"></i>Confirm Booking
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const startDate = document.getElementById("startDate");
+    const endDate = document.getElementById("endDate");
+    const nightsCount = document.getElementById("nightsCount");
+    const totalPriceLabel = document.getElementById("totalPriceLabel");
+    const totalPriceInput = document.getElementById("totalPriceInput");
+    const paymentMethod = document.getElementById("paymentMethod");
+    const cardDetails = document.getElementById("cardDetails");
+    const upiSection = document.getElementById("upiSection");
+    const upiQR = document.getElementById("upiQR");
+    const breakfastCheckbox = document.getElementById("breakfast");
+    const pickupCheckbox = document.getElementById("pickup");
+    const breakfastCost = document.getElementById("breakfastCost");
+    const pickupCost = document.getElementById("pickupCost");
+
+    const basePrice = parseInt("<%= listing.price %>");
+
+    function calculateTotal() {
+      const start = new Date(startDate.value);
+      const end = new Date(endDate.value);
+      const isValid = !isNaN(start) && !isNaN(end) && end > start;
+
+      let nights = isValid ? Math.ceil((end - start) / (1000 * 60 * 60 * 24)) : 0;
+      let total = basePrice * nights;
+
+      let breakfast = breakfastCheckbox.checked ? 200 * nights : 0;
+      let pickup = pickupCheckbox.checked ? 500 : 0;
+
+      total += breakfast + pickup;
+
+      nightsCount.textContent = nights;
+      breakfastCost.textContent = breakfast;
+      pickupCost.textContent = pickup;
+      totalPriceLabel.textContent = total;
+      totalPriceInput.value = total;
+
+      if (paymentMethod.value === "upi") {
+        upiQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=fakeupi@okaxis&pn=WanderLust&am=${total}&cu=INR`;
+      }
+    }
+
+    startDate.addEventListener("change", calculateTotal);
+    endDate.addEventListener("change", calculateTotal);
+    breakfastCheckbox.addEventListener("change", calculateTotal);
+    pickupCheckbox.addEventListener("change", calculateTotal);
+
+    paymentMethod.addEventListener("change", () => {
+      cardDetails.classList.add("d-none");
+      upiSection.classList.add("d-none");
+
+      if (paymentMethod.value === "credit_card" || paymentMethod.value === "debit_card") {
+        cardDetails.classList.remove("d-none");
+      } else if (paymentMethod.value === "upi") {
+        upiSection.classList.remove("d-none");
+        calculateTotal();
+      }
+    });
+  </script>
+</body>

@@ -1,0 +1,29 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<section class="container py-5">
+    <h2 class="mb-4 text-center">My Favorite Listings ❤️</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <% if (listings.length === 0) { %>
+            <div class="col">
+                <div class="alert alert-info w-100 text-center">You have no favorites yet.</div>
+            </div>
+        <% } %>
+        <% listings.forEach(listing => { %>
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 rounded-4 listing-card">
+                    <a href="/listing/<%= listing._id %>" class="text-decoration-none text-dark">
+                        <img src="<%= listing.image.url %>" class="card-img-top rounded-top-4"
+                             alt="<%= listing.title %>" style="height: 14rem; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= listing.title %></h5>
+                            <p class="text-muted small mb-1"><%= listing.location %></p>
+                            <p class="fw-bold text-primary">₹<%= listing.price.toLocaleString("en-IN") %>/night</p>
+                            <a href="/listing/<%= listing._id %>"
+                               class="btn btn-sm btn-outline-primary mt-2">View Details</a>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section>

@@ -1,30 +1,60 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+
+  <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5 min-vh-100">
-            <form  method="POST" action="/signup" class="needs-validation">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-                    <label for="email">Email address</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="abc14" required>
-                    <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                    <label for="password">Password</label>
-                </div>
-                <!-- <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div> -->
-                <button class="w-100 btn btn-lg btn-primary">Sign up</button>
-                <hr class="my-4">
-                <div class="my-3">
-                    <small class="text-body-secondary">By clicking Login, you agree to the terms of use.</small>
-                    <p>Already a user? <a href="/login">Log in here</a></p>
-                </div>
-            </form>                
+      <form method="POST" action="/signup" class="needs-validation" novalidate>
+        <h2 class="mb-4">Create an account</h2>
+
+        <div class="form-floating mb-3">
+          <input type="username" class="form-control" id="username" name="username" placeholder="@example123" required>
+          <label for="username">Username</label>
+          <div class="invalid-feedback">Please enter a valid Username.</div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          <label for="email">Email address</label>
+          <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <label for="password">Password</label>
+          <div class="invalid-feedback">Please enter a password.</div>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Sign up</button>
+
+        <hr>
+
+        <div class="text-center mb-3">
+          <p>Or sign up with</p>
+          <a href="/auth/google" class="btn btn-outline-danger">
+            <i class="bi bi-google"></i> Sign up with Google
+          </a>
+        </div>
+
+        <div class="my-3 text-center">
+          <small class="text-muted">By signing up, you agree to our terms of use.</small>
+          <p>Already a user? <a href="/login">Log in here</a></p>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
+
+  <script>
+    // Bootstrap validation script
+    (() => {
+      'use strict'
+      const forms = document.querySelectorAll('.needs-validation')
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })();
+  </script>

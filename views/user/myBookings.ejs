@@ -1,0 +1,77 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+  <body>
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">📅 My Bookings</h2>
+        <p class="text-muted">All the places you've booked to stay</p>
+      </div>
+
+      <% if (myBookings.length===0) { %>
+        <div class="alert alert-info text-center shadow-sm p-4 rounded">
+          <i class="bi bi-calendar-x fs-3"></i><br>
+          You haven't booked any places yet.
+        </div>
+        <% } else { %>
+          <div class="row g-4">
+            <% myBookings.forEach(booking=> { %>
+              <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+                  <img src="<%= booking.listing.image.url %>" class="card-img-top object-fit-cover"
+                    style="height: 200px;" alt="Listing Image">
+                  <div class="card-body d-flex flex-column bg-light-subtle dark-mode-bg-soft rounded-bottom">
+                    <h5 class="card-title mb-2 text-truncate">
+                      <a href="/listing/<%= booking.listing._id %>"
+                        class="text-decoration-none text-primary fw-semibold">
+                        <%= booking.listing.title %>
+                      </a>
+                    </h5>
+                    <p class="card-text text-muted small mb-1">
+                      <i class="bi bi-geo-alt-fill me-1"></i>
+                      <%= booking.listing.location %>
+                    </p>
+                    <p class="card-text small mb-2">
+                      <strong>From:</strong>
+                      <%= booking.startDateFormatted %><br>
+                        <strong>To:</strong>
+                        <%= booking.endDateFormatted %>
+                    </p>
+                    <div class="mt-auto d-flex justify-content-between align-items-center gap-2">
+                      <span class="badge bg-success px-3 py-2 rounded-pill">✔ Confirmed</span>
+                      <div>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                          data-bs-target="#cancelModal-<%= booking._id %>">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Cancel Confirmation Modal -->
+              <div class="modal fade" id="cancelModal-<%= booking._id %>" tabindex="-1"
+                aria-labelledby="cancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Cancel Booking</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to cancel your booking for <strong>
+                        <%= booking.listing.title %>
+                      </strong>?
+                    </div>
+                    <div class="modal-footer">
+                      <form action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Yes, Cancel</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <% }) %>
+          </div>
+          <% } %>
+    </div>
+  </body>

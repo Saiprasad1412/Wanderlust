@@ -1,0 +1,145 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+    <body>
+        <!-- Hero Section with Dark Overlay -->
+        <section class="hero-section text-white text-center d-flex align-items-center position-relative"
+            style="background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=60') center/cover no-repeat; height: 80vh;">
+
+
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50 z-1"></div>
+
+            <div class="container position-relative z-2">
+                <h1 class="display-4 fw-bold mb-3">Your Journey Begins with WanderLust</h1>
+                <p class="lead mb-4">Find hidden gems, meet incredible hosts, and stay in places that feel like home
+                    anywhere you go.</p>
+                <a href="/listings" class="btn btn-light btn-lg px-4">Explore Listings</a>
+            </div>
+        </section>
+
+        <!-- About WanderLust -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
+                            class="img-fluid rounded shadow" alt="About WanderLust">
+
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <h2 class="fw-bold mb-3">What Makes Us Different?</h2>
+                        <p class="text-muted fs-5">
+                            WanderLust is a next-gen platform for travelers seeking authentic experiences. Whether it’s
+                            a treehouse in the woods or a luxury stay by the beach, we connect you with unique stays
+                            hosted by real people.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Verified Hosts &
+                                Listings</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Global Access,
+                                Local Experience</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Safe, Secure &
+                                Seamless Payments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Mission Cards -->
+        <section class="py-5 text-center">
+            <div class="container">
+                <h2 class="fw-bold mb-4">Our Mission</h2>
+                <div class="row g-4">
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="card border-0 shadow h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="bi bi-globe-americas display-4 text-primary mb-3"></i>
+                                <h5 class="fw-semibold">Explore the World</h5>
+                                <p>We help travelers explore more with personalized recommendations and unique stays.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="card border-0 shadow h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="bi bi-emoji-smile display-4 text-warning mb-3"></i>
+                                <h5 class="fw-semibold">Host with Heart</h5>
+                                <p>Our hosts are more than landlords—they’re storytellers, guides, and fellow explorers.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="card border-0 shadow h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="bi bi-lock-fill display-4 text-success mb-3"></i>
+                                <h5 class="fw-semibold">Trust & Transparency</h5>
+                                <p>From reviews to real-time support, we keep your bookings secure and stress-free.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQs Accordion -->
+        <section class="bg-light py-5">
+            <div class="container">
+                <h2 class="text-center fw-bold mb-4">Frequently Asked Questions</h2>
+                <div class="accordion accordion-flush shadow-sm" id="faqAccordion">
+                    <% const faqs=[ { question: "How do I book a stay on WanderLust?" ,
+                        answer: "Browse listings, select dates, and pay securely via Razorpay or UPI — you're done!" },
+                        { question: "Is there a cancellation policy?" ,
+                        answer: "Yes! You’ll see the host’s cancellation rules on the listing and during checkout." }, {
+                        question: "Can I become a host?" ,
+                        answer: "Absolutely. Sign up as a host, add your place, and start welcoming guests." }, {
+                        question: "Is WanderLust safe to use?" ,
+                        answer: "Yes. We use end-to-end encryption and securely handle all transactions." } ]; %>
+
+                        <% faqs.forEach((faq, index)=> { %>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-heading<%= index %>">
+                                    <button class="accordion-button <%= index !== 0 ? 'collapsed' : '' %>" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#flush-collapse<%= index %>"
+                                        aria-expanded="<%= index === 0 ? 'true' : 'false' %>"
+                                        aria-controls="flush-collapse<%= index %>">
+                                        <%= faq.question %>
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse<%= index %>"
+                                    class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+                                    aria-labelledby="flush-heading<%= index %>" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <%= faq.answer %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA Section -->
+        <!-- Contact CTA Card Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card shadow border-0 text-center">
+                            <div class="card-body py-5">
+                                <h2 class="fw-bold mb-3">Need more help?</h2>
+                                <p class="lead mb-4">Our support team is just a message away. We respond within hours!
+                                </p>
+                                <a href="/contact" class="btn btn-warning btn-lg px-4">
+                                    <i class="bi bi-chat-left-text me-2"></i>Contact Us
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>

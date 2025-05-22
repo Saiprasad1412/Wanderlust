@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const User = require("../models/user.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middelware.js");
 const userController = require("../controllers/user.js")
@@ -11,9 +10,29 @@ router.route("/signup")
     .post(wrapAsync(userController.signup));
 
 router.route("/login")
-    .get(userController.loginPage)
-    .post(saveRedirectUrl,
-        passport.authenticate('local',{ failureRedirect: "/login", failureFlash: true }),userController.login);
+    .get(saveRedirectUrl, wrapAsync(userController.loginPage))
+    .post(passport.authenticate('local',
+        { failureRedirect: "/login", failureFlash: true }),wrapAsync(userController.login));
 
-router.get("/logout",userController.logout);
+router.get("/logout", wrapAsync(userController.logout));
+router.get("/contact", wrapAsync(userController.contact));
+router.get("/about", wrapAsync(userController.about));
+
+router.post("/profile/update", wrapAsync(userController.profileEdit));
+
+// Store the intended URL before redirecting to Google
+router.get('/auth/google', (req, res, next) => {
+  if (req.session) {
+    req.session.redirectUrl = req.headers.referer || '/listing'; // fallback if no referrer
+  }
+  next();
+}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Google OAuth callback
+router.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  wrapAsync(userController.googleAuth)
+);
+  
 module.exports = router;
+

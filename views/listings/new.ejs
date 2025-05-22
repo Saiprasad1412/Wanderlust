@@ -1,75 +1,65 @@
 <% layout("/layouts/boilerplate.ejs") %>
+
 <body>
-    <div class="p-5 bg-body-tertiary rounded-3">
-        <h3>Add Listing</h3>
-        <form method="post" action="/listing" novalidate class="needs-validation" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label class="form-label">Title</label>
-                <input type="text" 
-                class="form-control" 
-                id="exampleFormControlInput1" 
-                placeholder="Enter Title" 
-                name="title" 
-                required>
-                <div class="invalid-feedback">
-                    Please provide a valid title.
+    <div class="container my-5 dark-mode">
+        <div class="p-5 bg-light rounded-4 shadow-sm border">
+            <h2 class="mb-4 fw-bold text-primary">
+                <i class="bi bi-plus-circle me-2"></i> Add New Listing
+            </h2>
+
+            <form method="POST" action="/listing" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+                <div class="row g-4">
+                    <!-- Title -->
+                    <div class="col-md-6">
+                        <label for="title" class="form-label fw-semibold">Title</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="Ex: Cozy Beach House" required>
+                        <div class="invalid-feedback">Please provide a valid title.</div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="col-md-6">
+                        <label for="price" class="form-label fw-semibold">Price (INR)</label>
+                        <input type="number" name="price" id="price" class="form-control" placeholder="Ex: 2500" required>
+                        <div class="invalid-feedback">Please enter a valid price.</div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="col-md-6">
+                        <label for="location" class="form-label fw-semibold">Location</label>
+                        <input type="text" name="location" id="location" class="form-control" placeholder="Ex: Goa" required>
+                        <div class="invalid-feedback">Location is required.</div>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="col-md-6">
+                        <label for="country" class="form-label fw-semibold">Country</label>
+                        <input type="text" name="country" id="country" class="form-control" placeholder="Ex: India" required>
+                        <div class="invalid-feedback">Please provide a valid country name.</div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="col-md-12">
+                        <label for="image" class="form-label fw-semibold">Upload Listing Image</label>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                        <div class="invalid-feedback">Please upload an image.</div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-12">
+                        <label for="description" class="form-label fw-semibold">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="4" placeholder="Describe your listing..." required></textarea>
+                        <div class="invalid-feedback">Description cannot be empty.</div>
+                    </div>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea class="form-control" 
-                id="exampleFormControlTextarea1" 
-                rows="3" name="description" 
-                required></textarea>
-                <div class="invalid-feedback">
-                    Description cannot be empty.
+
+                <!-- Submit Button -->
+                <div class="mt-4 text-end">
+                    <button type="submit" class="btn btn-lg btn-primary px-4 rounded-pill">
+                        <i class="bi bi-upload me-1"></i> Add Listing
+                    </button>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Price</label>
-                <input type="number" 
-                class="form-control" 
-                id="exampleFormControlInput1" 
-                placeholder="Enter price" 
-                name="price" required>
-                <div class="invalid-feedback">
-                    Please enter a valid price.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Upload Image</label>
-                <input type="file" 
-                class="form-control" 
-                id="exampleFormControlInput1" 
-                placeholder="Enter image URL" 
-                name="image" required>
-                <div class="invalid-feedback">
-                    Please provide a valid image URL.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Location</label>
-                <input type="text" 
-                class="form-control" 
-                id="exampleFormControlInput1" 
-                placeholder="Enter location" 
-                required name="location">
-                <div class="invalid-feedback">
-                    Location is required.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Country</label>
-                <input type="text" 
-                class="form-control" 
-                id="exampleFormControlInput1" 
-                placeholder="Enter country"  
-                name="country" required>
-                <div class="invalid-feedback">
-                    Please provide a valid country name.
-                </div>
-            </div>
-            <button class="btn btn-primary">Add</button>
-        </form>
+            </form>
+        </div>
     </div>
 </body>
