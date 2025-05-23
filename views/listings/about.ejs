@@ -3,18 +3,23 @@
     <body>
         <!-- Hero Section with Dark Overlay -->
         <section class="hero-section text-white text-center d-flex align-items-center position-relative"
-            style="background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=60') center/cover no-repeat; height: 80vh;">
+    style="background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=60') center/cover no-repeat; height: 80vh; min-height: 400px; padding: 2.5rem 1.25rem; overflow: hidden;">
+
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50" style="z-index: 1;"></div>
+
+    <div class="container position-relative text-center" style="z-index: 2;">
+        <h1 class="fw-bold mb-3 display-3 display-md-2 fs-2 fs-md-1 lh-sm lh-md-base">
+            Your Journey Begins with WanderLust
+        </h1>
+        <p class="lead mb-4 fs-5 fs-md-4 lh-base lh-md-lg">
+            Find hidden gems, meet incredible hosts, and stay in places that feel like home anywhere you go.
+        </p>
+        <a href="/listing" class="btn btn-light btn-lg px-4 fs-5 fs-md-4 py-2 py-md-3">Explore Listings</a>
+    </div>
+
+</section>
 
 
-            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50 z-1"></div>
-
-            <div class="container position-relative z-2">
-                <h1 class="display-4 fw-bold mb-3">Your Journey Begins with WanderLust</h1>
-                <p class="lead mb-4">Find hidden gems, meet incredible hosts, and stay in places that feel like home
-                    anywhere you go.</p>
-                <a href="/listings" class="btn btn-light btn-lg px-4">Explore Listings</a>
-            </div>
-        </section>
 
         <!-- About WanderLust -->
         <section class="py-5 bg-light">

@@ -52,42 +52,41 @@
             <div class="filters-panel">
               <div class="row g-4 align-items-end">
 
-                <!-- Sort -->
-                <div class="col-md-4">
-                  <label for="sortSelect" class="form-label text-secondary">Sort By</label>
-                  <select id="sortSelect" class="form-select rounded-pill shadow-sm">
-                    <option value="price_asc">Price: Low to High</option>
-                    <option value="price_desc">Price: High to Low</option>
-                    <option value="rating">Rating</option>
-                    <option value="newest">Newest Listings</option>
-                  </select>
-                </div>
+                <div class="row g-3"> <!-- g-3 adds consistent gutters -->
+                  <!-- Sort -->
+                  <div class="col-12 col-md-4">
+                    <label for="sortSelect" class="form-label text-secondary">Sort By</label>
+                    <select id="sortSelect" class="form-select rounded-pill shadow-sm">
+                      <option value="price_asc">Price: Low to High</option>
+                      <option value="price_desc">Price: High to Low</option>
+                      <option value="rating">Rating(Highly)</option>
+                      <option value="newest">Newest Listings</option>
+                    </select>
+                  </div>
 
-                <!-- Category -->
-                <div class="col-md-4">
-                  <label for="categorySelect" class="form-label text-secondary">Category</label>
-                  <select id="categorySelect" class="form-select rounded-pill shadow-sm">
-                    <option value="">All Categories</option>
-                    <option value="beach">🏖️ Beach</option>
-                    <option value="mountain">⛰️ Mountain</option>
-                    <option value="city">🏙️ City</option>
-                    <option value="heritage">🏛️ Heritage</option>
-                    <option value="adventure">🧗 Adventure</option>
-                    <option value="forest">🌲 Forest</option>
-                  </select>
+                  <!-- Category -->
+                  <div class="col-12 col-md-4">
+                    <label for="categorySelect" class="form-label text-secondary">Category</label>
+                    <select id="categorySelect" class="form-select rounded-pill shadow-sm">
+                      <option value="">All Categories</option>
+                      <option value="beach">🏖️ Beach</option>
+                      <option value="mountain">⛰️ Mountain</option>
+                      <option value="city">🏙️ City</option>
+                      <option value="heritage">🏛️ Heritage</option>
+                      <option value="adventure">🧗 Adventure</option>
+                      <option value="forest">🌲 Forest</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label for="priceSlider"
+                      class="form-label d-flex justify-content-between align-items-center text-secondary">
+                      <span>Max Price:</span>
+                      <span class="text-primary fw-bold" id="priceVal">₹5000</span>
+                    </label>
+                    <input type="range" class="form-range" min="500" max="10000" step="500" id="priceSlider"
+                      value="5000" />
+                  </div>
                 </div>
-
-                <!-- Price -->
-                <div class="col-md-4">
-                  <label for="priceSlider"
-                    class="form-label d-flex justify-content-between align-items-center text-secondary">
-                    <span>Max Price:</span>
-                    <span class="text-primary fw-bold" id="priceVal">₹5000</span>
-                  </label>
-                  <input type="range" class="form-range" min="500" max="10000" step="500" id="priceSlider"
-                    value="5000" />
-                </div>
-
 
                 <!-- Apply Button -->
                 <div class="col-12 text-end">

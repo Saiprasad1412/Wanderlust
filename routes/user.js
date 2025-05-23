@@ -21,18 +21,13 @@ router.get("/about", wrapAsync(userController.about));
 router.post("/profile/update", wrapAsync(userController.profileEdit));
 
 // Store the intended URL before redirecting to Google
-router.get('/auth/google', (req, res, next) => {
-  if (req.session) {
-    req.session.redirectUrl = req.headers.referer || '/listing'; // fallback if no referrer
-  }
-  next();
-}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+ router.get('/auth/google', 
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Google OAuth callback
+// Google OAuth callback route
 router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  wrapAsync(userController.googleAuth)
-);
+   wrapAsync(userController.googleAuth)); 
   
 module.exports = router;
 

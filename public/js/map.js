@@ -28,8 +28,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     directionsBtn.classList.remove('d-none');
                 }
 
-                const observer = new IntersectionObserver(
-                    (entries) => {
+                // --- START: Double Tap to Enable Scroll/Pan on Mobile ---
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    let lastTap = 0;
+                    let scrollEnabled = false;
+
+                    map.dragging.disable(); // disable panning by default
+                    map.scrollWheelZoom.disable(); // disable zoom by scroll
+
+                    mapElement.addEventListener('touchend', (e) => {
+                        const now = Date.now();
+                        if (now - lastTap < 300) {
+                            // double tap detected
+                            if (!scrollEnabled) {
+                                map.dragging.enable();
+                                scrollEnabled = true;
+                            }
+                        }
+                        lastTap = now;
+                    });
+
+                    // Disable dragging again when map is out of viewport
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (!entry.isIntersecting && scrollEnabled) {
+                                map.dragging.disable();
+                                scrollEnabled = false;
+                            }
+                        });
+                    }, { threshold: 0.3 });
+
+                    observer.observe(mapElement);
+                } else {
+                    // For desktop, enable scroll wheel zoom only when map in viewport and focused
+                    const observer = new IntersectionObserver((entries) => {
                         entries.forEach((entry) => {
                             if (entry.isIntersecting) {
                                 map.once('focus', () => {
@@ -39,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                 map.scrollWheelZoom.disable();
                             }
                         });
-                    },
-                    { threshold: 0.5 }
-                );
+                    }, { threshold: 0.5 });
+                    observer.observe(mapElement);
+                }
+                // --- END: Double Tap to Enable Scroll/Pan on Mobile ---
 
-                observer.observe(mapElement);
             } else {
                 mapElement.innerHTML = "<p class='text-danger'>Location not found.</p>";
             }
@@ -52,6 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error fetching geocode or loading map:", err);
             mapElement.innerHTML = "<p class='text-danger'>Location could not be loaded.</p>";
         });
+});
+
+
+
 
     // Show more reviews
     const showMoreBtn = document.getElementById('show-more-btn');
@@ -63,4 +99,3 @@ document.addEventListener('DOMContentLoaded', () => {
             showMoreBtn.style.display = 'none';
         });
     }
-});
