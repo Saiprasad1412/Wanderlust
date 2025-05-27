@@ -16,8 +16,6 @@ router.route("/")
         wrapAsync(listingContoller.addListing));
 
 router.get("/create", isLogedIn, wrapAsync(listingContoller.create));
-
-// router.get('/search', wrapAsync(listingContoller.search));
 router.get("/mylistings", isLogedIn, wrapAsync(listingContoller.myListings));
 router.get("/myreviews", isLogedIn, wrapAsync(listingContoller.myReviews));  
 router.get("/mybookings", isLogedIn, wrapAsync(listingContoller.myBookings)); 

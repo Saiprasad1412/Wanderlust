@@ -152,13 +152,13 @@ module.exports.suggestions = async (req, res) => {
 
 module.exports.myListings = async (req, res) => {
   const listings = await Listing.find({ owner: req.user._id });
-  res.render("user/mylistings", { listings });
+  res.render("user/myListings", { listings });
 };
 
 module.exports.myReviews = async (req, res) => {
   const reviews = await Review.find({ author: req.user._id })
     .populate("listingId");
-  res.render("user/myreviews", { myReviews: reviews });
+  res.render("user/myReviews", { myReviews: reviews });
 };
 
 module.exports.myBookings = async (req, res) => {
